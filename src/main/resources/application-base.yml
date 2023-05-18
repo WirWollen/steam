@@ -1,0 +1,12 @@
+server:
+  port: 8080
+  servlet:
+#    context-path: /api/ws
+    session:
+      timeout: 604800s
+      cookie:
+        max-age: 604800s
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+dev-auth: true
