@@ -20,4 +20,11 @@ public class RestTemplateService {
         ResponseEntity<Item> response = restTemplate.exchange(fooResourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
+
+    public Item getParamsData(String hashName, String name, String quality) {
+        String fooResourceUrl = "https://steamcommunity.com/market/priceoverview/?country=RU&currency=5&appid=730&market_hash_name=" + hashName + " | " + name + " (" + quality + ")";
+        ResponseEntity<Item> response = restTemplate.exchange(fooResourceUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
+        return response.getBody();
+    }
+
 }
