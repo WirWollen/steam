@@ -1,4 +1,4 @@
-package com.parse.steam.external.externalDtos;
+package com.parse.steam.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

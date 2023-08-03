@@ -1,6 +1,6 @@
 package com.parse.steam.controllers;
 
-import com.parse.steam.external.externalDtos.Item;
+import com.parse.steam.dtos.Item;
 import com.parse.steam.services.RestTemplateService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
