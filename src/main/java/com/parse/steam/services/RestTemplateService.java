@@ -1,6 +1,6 @@
 package com.parse.steam.services;
 
-import com.parse.steam.external.externalDtos.Item;
+import com.parse.steam.dtos.Item;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;

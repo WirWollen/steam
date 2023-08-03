@@ -1,7 +1,7 @@
 server:
   port: 8080
   servlet:
-#    context-path: /api/ws
+    #    context-path: /api/ws
     session:
       timeout: 604800s
       cookie:
@@ -10,3 +10,27 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 dev-auth: true
+spring:
+  freemarker:
+    expose-request-attributes: true
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/steam
+    username: postgres
+    password: 1234
+  liquibase:
+    change-log: classpath:liquibase/db.changelog-master.xml
+
+    drop-first: false
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+    jpa:
+      show-sql: true
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+steam:
+  tax: 0.87

@@ -1,0 +1,50 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet id="03.08.2023" author="ridden">
+
+        <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
+        <createTable tableName="wear">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_wear"/>
+            </column>
+            <column name="wear" type="VARCHAR(255)"/>
+        </createTable>
+        <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
+        <createTable tableName="weapon_type">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_weapon_type"/>
+            </column>
+            <column name="type" type="VARCHAR(255)"/>
+        </createTable>
+
+        <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
+        <createTable tableName="naming">
+            <column name="id" type="serial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_naming"/>
+            </column>
+            <column name="naming_rus" type="VARCHAR(255)"/>
+            <column name="naming_en" type="VARCHAR(255)"/>
+        </createTable>
+        <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
+        <createTable tableName="item">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_item"/>
+            </column>
+            <column name="wear_entities_id" type="BIGINT"/>
+            <column name="weapon_type_entities_id" type="BIGINT"/>
+            <column name="naming_entities_id" type="BIGINT"/>
+            <column name="photo" type="VARCHAR(255)"/>
+            <column name="st" type="VARCHAR(255)"/>
+            <column name="souvenir" type="BOOLEAN"/>
+            <column name="url" type="VARCHAR(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="naming_entities_id" baseTableName="item" constraintName="FK_ITEM_ON_NAMINGENTITIES" referencedColumnNames="id" referencedTableName="naming"/>
+        <addForeignKeyConstraint baseColumnNames="weapon_type_entities_id" baseTableName="item" constraintName="FK_ITEM_ON_WEAPONTYPEENTITIES" referencedColumnNames="id" referencedTableName="weapon_type"/>
+        <addForeignKeyConstraint baseColumnNames="wear_entities_id" baseTableName="item" constraintName="FK_ITEM_ON_WEARENTITIES" referencedColumnNames="id" referencedTableName="wear"/>
+
+
+    </changeSet>
+
+</databaseChangeLog>
