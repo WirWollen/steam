@@ -1,5 +1,6 @@
-package com.parse.steam.entities;
+package com.parse.steam.entities.parsed;
 
+import com.parse.steam.entities.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,9 +25,7 @@ public class ItemEntity extends BaseEntity {
     @Column(name = "photo")
     private String photo;
     @Column(name = "st")
-    private String st;
+    private Boolean st;
     @Column(name = "souvenir")
     private Boolean souvenir;
-    @Column(name = "url")
-    private String url;
 }

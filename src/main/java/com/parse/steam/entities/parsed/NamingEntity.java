@@ -1,5 +1,6 @@
-package com.parse.steam.entities;
+package com.parse.steam.entities.parsed;
 
+import com.parse.steam.entities.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

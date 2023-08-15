@@ -36,9 +36,8 @@
             <column name="weapon_type_entities_id" type="BIGINT"/>
             <column name="naming_entities_id" type="BIGINT"/>
             <column name="photo" type="VARCHAR(255)"/>
-            <column name="st" type="VARCHAR(255)"/>
+            <column name="st" type="BOOLEAN"/>
             <column name="souvenir" type="BOOLEAN"/>
-            <column name="url" type="VARCHAR(255)"/>
         </createTable>
         <addForeignKeyConstraint baseColumnNames="naming_entities_id" baseTableName="item" constraintName="FK_ITEM_ON_NAMINGENTITIES" referencedColumnNames="id" referencedTableName="naming"/>
         <addForeignKeyConstraint baseColumnNames="weapon_type_entities_id" baseTableName="item" constraintName="FK_ITEM_ON_WEAPONTYPEENTITIES" referencedColumnNames="id" referencedTableName="weapon_type"/>
