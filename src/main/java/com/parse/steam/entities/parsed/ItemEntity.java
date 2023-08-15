@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Table(name = "item")
 @Entity
@@ -16,14 +15,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemEntity extends BaseEntity {
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<WearEntity> wearEntities;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<WeaponTypeEntity> weaponTypeEntities;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<NamingEntity> namingEntities;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ConditionEntity conditionEntity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private WeaponTypeEntity weaponTypeEntity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private NamingEntity namingEntity;
     @Column(name = "photo")
     private String photo;
+    @Column(name = "active")
+    private Boolean active;
     @Column(name = "st")
     private Boolean st;
     @Column(name = "souvenir")

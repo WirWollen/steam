@@ -5,11 +5,11 @@
     <changeSet id="03.08.2023" author="ridden">
 
         <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
-        <createTable tableName="wear">
+        <createTable tableName="condition">
             <column name="id" type="serial">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_wear"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_condition"/>
             </column>
-            <column name="wear" type="VARCHAR(255)"/>
+            <column name="condition" type="VARCHAR(255)"/>
         </createTable>
         <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
         <createTable tableName="weapon_type">
@@ -29,19 +29,20 @@
         </createTable>
         <createSequence incrementBy="1" sequenceName="hibernate_sequence" startValue="1"/>
         <createTable tableName="item">
-            <column name="id" type="BIGINT">
+            <column name="id" type="serial">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_item"/>
             </column>
-            <column name="wear_entities_id" type="BIGINT"/>
-            <column name="weapon_type_entities_id" type="BIGINT"/>
-            <column name="naming_entities_id" type="BIGINT"/>
+            <column name="condition_entity_id" type="BIGINT"/>
+            <column name="weapon_type_entity_id" type="BIGINT"/>
+            <column name="naming_entity_id" type="BIGINT"/>
             <column name="photo" type="VARCHAR(255)"/>
+            <column name="active" type="BOOLEAN"/>
             <column name="st" type="BOOLEAN"/>
             <column name="souvenir" type="BOOLEAN"/>
         </createTable>
-        <addForeignKeyConstraint baseColumnNames="naming_entities_id" baseTableName="item" constraintName="FK_ITEM_ON_NAMINGENTITIES" referencedColumnNames="id" referencedTableName="naming"/>
-        <addForeignKeyConstraint baseColumnNames="weapon_type_entities_id" baseTableName="item" constraintName="FK_ITEM_ON_WEAPONTYPEENTITIES" referencedColumnNames="id" referencedTableName="weapon_type"/>
-        <addForeignKeyConstraint baseColumnNames="wear_entities_id" baseTableName="item" constraintName="FK_ITEM_ON_WEARENTITIES" referencedColumnNames="id" referencedTableName="wear"/>
+        <addForeignKeyConstraint baseColumnNames="naming_entity_id" baseTableName="item" constraintName="FK_ITEM_ON_NAMINGENTITY" referencedColumnNames="id" referencedTableName="naming"/>
+        <addForeignKeyConstraint baseColumnNames="weapon_type_entity_id" baseTableName="item" constraintName="FK_ITEM_ON_WEAPONTYPEENTITY" referencedColumnNames="id" referencedTableName="weapon_type"/>
+        <addForeignKeyConstraint baseColumnNames="condition_entity_id" baseTableName="item" constraintName="FK_ITEM_ON_CONDITIONENTITY" referencedColumnNames="id" referencedTableName="condition"/>
 
 
     </changeSet>

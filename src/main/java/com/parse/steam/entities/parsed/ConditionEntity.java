@@ -10,13 +10,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Table(name = "wear")
+@Table(name = "condition")
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WearEntity extends BaseEntity {
-    @Column(name = "wear")
-    private String wear;
+public class ConditionEntity extends BaseEntity {
+    @Column(name = "condition")
+    private String condition;
 }

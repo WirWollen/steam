@@ -10,14 +10,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemDto {
+public class ConditionDto {
     @JsonIgnore
     private Long id;
-    private ConditionDto conditionDto;
-    private WeaponTypeDto weaponTypeDto;
-    private NamingDto namingDto;
-    private String photo;
-    private Boolean active;
-    private Boolean st;
-    private Boolean souvenir;
+    private String wear;
 }
