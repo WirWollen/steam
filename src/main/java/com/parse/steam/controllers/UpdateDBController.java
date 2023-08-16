@@ -15,10 +15,10 @@ import java.util.List;
 public class UpdateDBController {
     private final UpdateDBService updateDBService;
 
-    @GetMapping("/start")
-    public Boolean startParse() {
-        return updateDBService.insert();
-    }
+//    @GetMapping("/start")
+//    public Boolean startParse() {
+//        return updateDBService.insert();
+//    }
 
     @GetMapping("/visual")
     public List<ItemDto> visual() {
