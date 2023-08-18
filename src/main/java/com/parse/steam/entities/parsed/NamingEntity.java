@@ -21,4 +21,6 @@ public class NamingEntity extends BaseEntity {
     private String naming_rus;
     @Column(name = "naming_en")
     private String naming_en;
+    @Column(name = "photo")
+    private String photo;
 }

@@ -16,7 +16,6 @@ public class ItemDto {
     private ConditionDto conditionDto;
     private WeaponTypeDto weaponTypeDto;
     private NamingDto namingDto;
-    private String photo;
     private Boolean active;
     private Boolean st;
     private Boolean souvenir;
