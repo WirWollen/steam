@@ -1,8 +1,10 @@
 package com.parse.steam.repo.parsed;
 
 import com.parse.steam.entities.parsed.ItemEntity;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,5 +19,10 @@ public interface ItemRepo extends CrudRepository<ItemEntity, Long> {
             "WHERE condition.condition = ?1 AND weapon_type.type = ?2 AND naming.naming_en = ?3 " +
             "LIMIT 1)", nativeQuery = true)
     Boolean findByParams(String condition, String weaponType, String namingEn);
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO item (condition_id, weapon_type_id, naming_id, photo, active, st, souvenir) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)", nativeQuery = true)
+    void saveByParams(Integer conditionId, Integer weaponTypeId, Integer namingId, String photo, Boolean active, Boolean st, Boolean souvenir);
 
 }

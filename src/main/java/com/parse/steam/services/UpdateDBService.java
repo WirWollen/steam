@@ -1,6 +1,6 @@
 package com.parse.steam.services;
 
-import com.parse.steam.converters.parsed.ItemConverter;
+import com.parse.steam.config.CacheBean;
 import com.parse.steam.dtos.ParseNamingDto;
 import com.parse.steam.dtos.market.MarketElementDto;
 import com.parse.steam.dtos.market.UpperMarketDto;
@@ -13,14 +13,17 @@ import com.parse.steam.repo.parsed.ItemRepo;
 import com.parse.steam.repo.parsed.NamingRepo;
 import com.parse.steam.repo.parsed.WeaponTypeRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -30,6 +33,8 @@ import java.util.stream.Collectors;
 public class UpdateDBService {
     @Value("${steam.all-cs-item-url}")
     private String url;
+    @Autowired
+    private CacheBean cacheBean;
     private final ItemRepo itemRepo;
     private final NamingRepo namingRepo;
     private final ConditionRepo conditionRepo;
@@ -37,36 +42,51 @@ public class UpdateDBService {
     private final String pattern = "^(StatTrak™)?\\s?(Souvenir)?\\s?(.+?)\\s\\|\\s(.+?)\\s\\((.+?)\\)$";
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public List<ItemDto> parseAllItems() {
+    public List<ItemDto> parseAllItemsVisual() {
         ResponseEntity<UpperMarketDto> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        List<MarketElementDto> items = response.getBody().getResults();
+        List<MarketElementDto> items = Objects.requireNonNull(response.getBody()).getResults();
         if (items.size() != 0) {
             List<ItemDto> itemDtos = items.stream().map(this::parseName).collect(Collectors.toList());
-//            itemDtos.stream().map(this::insert);
-            System.out.println(insert(itemDtos.get(0)));
+            itemDtos.forEach(this::insert);
             return itemDtos;
         }
         return null;
     }
 
-    //TODO
-    public boolean insert(ItemDto dto) {
-        if (!namingRepo.existsByNamingEn(dto.getNamingDto().getNaming_en())) {
-            System.out.println("00000000000000000000000000000000000000000000");
-        }
-        if (!conditionRepo.existsByCondition(dto.getConditionDto().getCondition())) {
-            System.out.println("11111111111111111111111111111111111111111111");
-        }
-        if (!weaponTypeRepo.existsByType(dto.getWeaponTypeDto().getType())) {
-            System.out.println("22222222222222222222222222222222222222222222");
-        }
-        //TODO
-        if(!itemRepo.findByParams(dto.getConditionDto().getCondition(), dto.getWeaponTypeDto().getType(), dto.getNamingDto().getNaming_en())) {
-            itemRepo.save(ItemConverter.toEntity(dto));
+    public boolean parseAllItemsSneaky() {
+        ResponseEntity<UpperMarketDto> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+        });
+        List<MarketElementDto> items = Objects.requireNonNull(response.getBody()).getResults();
+        if (items.size() != 0) {
+            items.stream().map(this::parseName).forEach(this::insert);
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    public void insert(ItemDto dto) {
+        if (!namingRepo.existsByNamingEn(dto.getNamingDto().getNaming_en())) {
+            namingRepo.checkAndInsertNamingEn(dto.getNamingDto().getNaming_en());
+        }
+        if (!(cacheBean.hashCondition().contains(dto.getConditionDto().getCondition()) || conditionRepo.existsByCondition(dto.getConditionDto().getCondition()))) {
+            conditionRepo.checkAndInsertCondition(dto.getConditionDto().getCondition());
+        }
+        if (!(cacheBean.hashWeaponType().contains(dto.getWeaponTypeDto().getType()) || weaponTypeRepo.existsByType(dto.getWeaponTypeDto().getType()))) {
+            weaponTypeRepo.checkAndInsertWeaponType(dto.getWeaponTypeDto().getType());
+        }
+        if (!itemRepo.findByParams(dto.getConditionDto().getCondition(), dto.getWeaponTypeDto().getType(), dto.getNamingDto().getNaming_en())) {
+            itemRepo.saveByParams(
+                    conditionRepo.getIdOfCondition(dto.getConditionDto().getCondition()),
+                    weaponTypeRepo.getIdOfWeaponType(dto.getWeaponTypeDto().getType()),
+                    namingRepo.getIdOfNaming(dto.getNamingDto().getNaming_en()),
+                    dto.getPhoto(),
+                    dto.getActive(),
+                    dto.getSt(),
+                    dto.getSouvenir()
+            );
+        }
     }
 
     private ItemDto parseName(MarketElementDto dto) {
