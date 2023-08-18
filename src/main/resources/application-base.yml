@@ -34,4 +34,4 @@ spring:
     allow-circular-references: true
 steam:
   tax: 0.87
-  all-cs-item-url: https://steamcommunity.com/market/search/render/?search_descriptions=0&sort_column=default&sort_dir=desc&appid=730&norender=1&count=5
+  all-cs-item-url: https://steamcommunity.com/market/search/render/?search_descriptions=0&sort_column=default&sort_dir=desc&appid=730&norender=1&count=100

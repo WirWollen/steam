@@ -39,7 +39,6 @@ public class UpdateDBService {
     private final NamingRepo namingRepo;
     private final ConditionRepo conditionRepo;
     private final WeaponTypeRepo weaponTypeRepo;
-    private final String pattern = "^(StatTrak™)?\\s?(Souvenir)?\\s?(.+?)\\s\\|\\s(.+?)\\s\\((.+?)\\)$";
     private final RestTemplate restTemplate = new RestTemplate();
 
     public List<ItemDto> parseAllItemsVisual() {
@@ -57,12 +56,16 @@ public class UpdateDBService {
     public boolean parseAllItemsSneaky() {
         ResponseEntity<UpperMarketDto> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        List<MarketElementDto> items = Objects.requireNonNull(response.getBody()).getResults();
-        if (items.size() != 0) {
-            items.stream().map(this::parseName).forEach(this::insert);
-            return true;
+        int totalSize = response.getBody().getTotal_count();
+        for (int i = 0; i < totalSize; i+= 100) {
+            ResponseEntity<UpperMarketDto> response2 = restTemplate.exchange(url + "start=" + i, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+            });
+            List<MarketElementDto> items = Objects.requireNonNull(response2.getBody()).getResults();
+            if (items.size() != 0) {
+                items.stream().map(this::parseName).forEach(this::insert);
+            }
         }
-        return false;
+        return true;
     }
 
     @Transactional
@@ -105,6 +108,7 @@ public class UpdateDBService {
 
     private ParseNamingDto stringToDto(String value) {
         ParseNamingDto dto = null;
+        final String pattern = "^(StatTrak™)?\\s?(Souvenir)?\\s?(.+?)\\s\\|\\s(.+?)\\s\\((.+?)\\)$";
         Matcher matcher = Pattern.compile(pattern).matcher(value);
         if (matcher.find()) {
             dto = new ParseNamingDto();
