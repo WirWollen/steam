@@ -15,4 +15,5 @@ public class NamingDto {
     private Long id;
     private String naming_rus;
     private String naming_en;
+    private String photo;
 }

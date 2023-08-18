@@ -13,6 +13,7 @@ import com.parse.steam.repo.parsed.ItemRepo;
 import com.parse.steam.repo.parsed.NamingRepo;
 import com.parse.steam.repo.parsed.WeaponTypeRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -28,6 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UpdateDBService {
@@ -39,7 +41,6 @@ public class UpdateDBService {
     private final NamingRepo namingRepo;
     private final ConditionRepo conditionRepo;
     private final WeaponTypeRepo weaponTypeRepo;
-    private final String pattern = "^(StatTrak™)?\\s?(Souvenir)?\\s?(.+?)\\s\\|\\s(.+?)\\s\\((.+?)\\)$";
     private final RestTemplate restTemplate = new RestTemplate();
 
     public List<ItemDto> parseAllItemsVisual() {
@@ -57,18 +58,23 @@ public class UpdateDBService {
     public boolean parseAllItemsSneaky() {
         ResponseEntity<UpperMarketDto> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        List<MarketElementDto> items = Objects.requireNonNull(response.getBody()).getResults();
-        if (items.size() != 0) {
-            items.stream().map(this::parseName).forEach(this::insert);
-            return true;
+        int totalSize = response.getBody().getTotal_count();
+        for (int i = 0; i < totalSize; i+= 100) {
+            log.info("Значение переменной: ", i);
+            ResponseEntity<UpperMarketDto> response2 = restTemplate.exchange(url + "start=" + i, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+            });
+            List<MarketElementDto> items = Objects.requireNonNull(response2.getBody()).getResults();
+            if (items.size() != 0) {
+                items.stream().map(this::parseName).filter(Objects::nonNull).forEach(this::insert);
+            }
         }
-        return false;
+        return true;
     }
 
     @Transactional
     public void insert(ItemDto dto) {
         if (!namingRepo.existsByNamingEn(dto.getNamingDto().getNaming_en())) {
-            namingRepo.checkAndInsertNamingEn(dto.getNamingDto().getNaming_en());
+            namingRepo.checkAndInsertNamingEn(dto.getNamingDto().getNaming_en(), dto.getNamingDto().getPhoto());
         }
         if (!(cacheBean.hashCondition().contains(dto.getConditionDto().getCondition()) || conditionRepo.existsByCondition(dto.getConditionDto().getCondition()))) {
             conditionRepo.checkAndInsertCondition(dto.getConditionDto().getCondition());
@@ -81,7 +87,6 @@ public class UpdateDBService {
                     conditionRepo.getIdOfCondition(dto.getConditionDto().getCondition()),
                     weaponTypeRepo.getIdOfWeaponType(dto.getWeaponTypeDto().getType()),
                     namingRepo.getIdOfNaming(dto.getNamingDto().getNaming_en()),
-                    dto.getPhoto(),
                     dto.getActive(),
                     dto.getSt(),
                     dto.getSouvenir()
@@ -91,20 +96,23 @@ public class UpdateDBService {
 
     private ItemDto parseName(MarketElementDto dto) {
         ParseNamingDto parseNamingDto = stringToDto(dto.getName());
-        ItemDto item = new ItemDto();
-        item.setConditionDto(new ConditionDto(null, parseNamingDto.getCondition()));
-        item.setWeaponTypeDto(new WeaponTypeDto(null, parseNamingDto.getWeapon()));
-        item.setNamingDto(new NamingDto(null, null, parseNamingDto.getName()));
-        item.setPhoto(dto.getAsset_description().getIcon_url());
-        item.setSt(parseNamingDto.getSt());
-        item.setSouvenir(parseNamingDto.getSouvenir());
-        item.setActive(true);
+        if(parseNamingDto != null) {
+            ItemDto item = new ItemDto();
+            item.setConditionDto(new ConditionDto(null, parseNamingDto.getCondition()));
+            item.setWeaponTypeDto(new WeaponTypeDto(null, parseNamingDto.getWeapon()));
+            item.setNamingDto(new NamingDto(null, null, parseNamingDto.getName(), dto.getAsset_description().getIcon_url()));
+            item.setSt(parseNamingDto.getSt());
+            item.setSouvenir(parseNamingDto.getSouvenir());
+            item.setActive(true);
 
-        return item;
+            return item;
+        }
+        return null;
     }
 
     private ParseNamingDto stringToDto(String value) {
         ParseNamingDto dto = null;
+        final String pattern = "^(StatTrak™)?\\s?(Souvenir)?\\s?(.+?)\\s\\|\\s(.+?)\\s\\((.+?)\\)$";
         Matcher matcher = Pattern.compile(pattern).matcher(value);
         if (matcher.find()) {
             dto = new ParseNamingDto();

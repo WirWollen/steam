@@ -22,7 +22,7 @@ public interface ItemRepo extends CrudRepository<ItemEntity, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO item (condition_id, weapon_type_id, naming_id, photo, active, st, souvenir) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)", nativeQuery = true)
-    void saveByParams(Integer conditionId, Integer weaponTypeId, Integer namingId, String photo, Boolean active, Boolean st, Boolean souvenir);
+    @Query(value = "INSERT INTO item (condition_id, weapon_type_id, naming_id, active, st, souvenir) VALUES (?1, ?2, ?3, ?4, ?5, ?6)", nativeQuery = true)
+    void saveByParams(Integer conditionId, Integer weaponTypeId, Integer namingId, Boolean active, Boolean st, Boolean souvenir);
 
 }

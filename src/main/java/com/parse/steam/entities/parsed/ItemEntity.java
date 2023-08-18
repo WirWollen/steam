@@ -21,8 +21,6 @@ public class ItemEntity extends BaseEntity {
     private WeaponTypeEntity weaponType;
     @ManyToOne(fetch = FetchType.LAZY)
     private NamingEntity naming;
-    @Column(name = "photo")
-    private String photo;
     @Column(name = "active")
     private Boolean active;
     @Column(name = "st")

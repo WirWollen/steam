@@ -12,8 +12,8 @@ public interface NamingRepo extends CrudRepository<NamingEntity, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO naming (naming_en) SELECT ?1 WHERE NOT EXISTS (SELECT 1 FROM naming WHERE naming_en = ?1)", nativeQuery = true)
-    void checkAndInsertNamingEn(String namingEn);
+    @Query(value = "INSERT INTO naming (naming_en, photo) SELECT ?1, ?2 WHERE NOT EXISTS (SELECT 1 FROM naming WHERE naming_en = ?1)", nativeQuery = true)
+        void checkAndInsertNamingEn(String namingEn, String photo);
 
     @Query(value = "SELECT Id FROM naming WHERE naming_en = ?1 LIMIT 1", nativeQuery = true)
     Integer getIdOfNaming(String naming_en);
