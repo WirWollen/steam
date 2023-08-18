@@ -16,12 +16,12 @@ public class UpdateDBController {
     private final UpdateDBService updateDBService;
 
     @GetMapping("/start")
-    public Boolean startParse() {
-        return updateDBService.insert();
+    public boolean startParse() {
+        return updateDBService.parseAllItemsSneaky();
     }
 
     @GetMapping("/visual")
     public List<ItemDto> visual() {
-        return updateDBService.parseAllItems();
+        return updateDBService.parseAllItemsVisual();
     }
 }

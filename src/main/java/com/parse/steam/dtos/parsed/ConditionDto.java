@@ -13,5 +13,5 @@ import lombok.Setter;
 public class ConditionDto {
     @JsonIgnore
     private Long id;
-    private String wear;
+    private String condition;
 }

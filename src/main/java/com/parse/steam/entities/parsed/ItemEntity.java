@@ -16,11 +16,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class ItemEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    private ConditionEntity conditionEntity;
+    private ConditionEntity condition;
     @ManyToOne(fetch = FetchType.LAZY)
-    private WeaponTypeEntity weaponTypeEntity;
+    private WeaponTypeEntity weaponType;
     @ManyToOne(fetch = FetchType.LAZY)
-    private NamingEntity namingEntity;
+    private NamingEntity naming;
     @Column(name = "photo")
     private String photo;
     @Column(name = "active")
