@@ -1,10 +1,9 @@
 package com.parse.steam.entities;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @MappedSuperclass
 @Getter
