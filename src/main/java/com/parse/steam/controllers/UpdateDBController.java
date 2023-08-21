@@ -16,8 +16,8 @@ public class UpdateDBController {
     private final UpdateDBService updateDBService;
 
     @GetMapping("/start")
-    public boolean startParse() {
-        return updateDBService.parseAllItemsSneaky();
+    public boolean startParse(int page) {
+        return updateDBService.parseAllItemsSneaky(page);
     }
 
     @GetMapping("/visual")
