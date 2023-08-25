@@ -55,12 +55,12 @@ public class UpdateDBService {
         return null;
     }
 
-    public boolean parseAllItemsSneaky() {
+    public boolean parseAllItemsSneaky(int page) {
         ResponseEntity<UpperMarketDto> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
         });
-        int totalSize = response.getBody().getTotal_count();
-        for (int i = 0; i < totalSize; i+= 100) {
-            log.info("Значение переменной: ", i);
+        int totalSize = Objects.requireNonNull(response.getBody()).getTotal_count();
+        for (int i = page; i < totalSize; i+= 100) {
+            log.info("i: ", i);
             ResponseEntity<UpperMarketDto> response2 = restTemplate.exchange(url + "start=" + i, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
             });
             List<MarketElementDto> items = Objects.requireNonNull(response2.getBody()).getResults();

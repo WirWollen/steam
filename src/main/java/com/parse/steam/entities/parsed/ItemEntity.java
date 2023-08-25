@@ -1,12 +1,11 @@
 package com.parse.steam.entities.parsed;
 
 import com.parse.steam.entities.BaseEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 @Table(name = "item")
 @Entity
@@ -15,11 +14,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemEntity extends BaseEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "condition_id")
     private ConditionEntity condition;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "weapon_type_id")
     private WeaponTypeEntity weaponType;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "naming_id")
     private NamingEntity naming;
     @Column(name = "active")
     private Boolean active;

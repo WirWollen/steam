@@ -11,6 +11,18 @@ springdoc:
     path: /swagger-ui.html
 dev-auth: true
 spring:
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: app.1
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      topic: parsed-item
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
   freemarker:
     expose-request-attributes: true
 
@@ -35,3 +47,7 @@ spring:
 steam:
   tax: 0.87
   all-cs-item-url: https://steamcommunity.com/market/search/render/?search_descriptions=0&sort_column=default&sort_dir=desc&appid=730&norender=1&count=100
+parse:
+  page-size: 100
+data:
+  page-size: 100
