@@ -1,6 +1,8 @@
 package com.parse.steam.repo.parsed;
 
 import com.parse.steam.entities.parsed.ItemEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public interface ItemRepo extends CrudRepository<ItemEntity, Long> {
     List<ItemEntity> findAll();
+    Page<ItemEntity> findAll(Pageable pageable);
 
     @Query(value = "SELECT EXISTS (SELECT 1 " +
             "FROM item " +
