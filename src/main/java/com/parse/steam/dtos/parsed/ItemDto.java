@@ -1,6 +1,5 @@
 package com.parse.steam.dtos.parsed;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDto {
-    @JsonIgnore
     private Long id;
     private ConditionDto conditionDto;
     private WeaponTypeDto weaponTypeDto;
