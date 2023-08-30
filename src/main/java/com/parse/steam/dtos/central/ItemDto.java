@@ -1,4 +1,4 @@
-package com.parse.steam.dtos.parsed;
+package com.parse.steam.dtos.central;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.parse.steam.config;
 
-import com.parse.steam.entities.parsed.ConditionEntity;
-import com.parse.steam.entities.parsed.WeaponTypeEntity;
+import com.parse.steam.entities.central.ConditionEntity;
+import com.parse.steam.entities.central.WeaponTypeEntity;
 import com.parse.steam.repo.parsed.ConditionRepo;
 import com.parse.steam.repo.parsed.WeaponTypeRepo;
 import lombok.AllArgsConstructor;

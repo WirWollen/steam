@@ -1,6 +1,5 @@
-package com.parse.steam.dtos.parsed;
+package com.parse.steam.dtos.central;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

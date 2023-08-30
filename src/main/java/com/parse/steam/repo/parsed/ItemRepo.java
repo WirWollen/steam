@@ -1,6 +1,6 @@
 package com.parse.steam.repo.parsed;
 
-import com.parse.steam.entities.parsed.ItemEntity;
+import com.parse.steam.entities.central.ItemEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;

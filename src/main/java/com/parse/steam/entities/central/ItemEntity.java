@@ -1,4 +1,4 @@
-package com.parse.steam.entities.parsed;
+package com.parse.steam.entities.central;
 
 import com.parse.steam.entities.BaseEntity;
 import jakarta.persistence.*;

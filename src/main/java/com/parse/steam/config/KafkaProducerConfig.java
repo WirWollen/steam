@@ -1,6 +1,6 @@
 package com.parse.steam.config;
 
-import com.parse.steam.dtos.parsed.ItemDto;
+import com.parse.steam.dtos.central.ItemDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
