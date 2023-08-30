@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ItemDto {
+public class OtherItemDto {
     private String success;
     private String lowest_price;
     private String volume;

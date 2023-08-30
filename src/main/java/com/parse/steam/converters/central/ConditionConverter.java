@@ -1,7 +1,7 @@
-package com.parse.steam.converters.parsed;
+package com.parse.steam.converters.central;
 
-import com.parse.steam.dtos.parsed.ConditionDto;
-import com.parse.steam.entities.parsed.ConditionEntity;
+import com.parse.steam.dtos.central.ConditionDto;
+import com.parse.steam.entities.central.ConditionEntity;
 import org.springframework.beans.BeanUtils;
 
 public class ConditionConverter {

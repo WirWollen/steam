@@ -1,4 +1,4 @@
-package com.parse.steam.entities.parsed;
+package com.parse.steam.entities.central;
 
 import com.parse.steam.entities.BaseEntity;
 import jakarta.persistence.Column;
@@ -9,17 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "naming")
+@Table(name = "condition")
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NamingEntity extends BaseEntity {
-    @Column(name = "naming_rus")
-    private String naming_rus;
-    @Column(name = "naming_en")
-    private String naming_en;
-    @Column(name = "photo")
-    private String photo;
+public class ConditionEntity extends BaseEntity {
+    @Column(name = "condition")
+    private String condition;
 }

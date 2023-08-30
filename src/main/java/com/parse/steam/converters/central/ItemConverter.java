@@ -1,7 +1,7 @@
-package com.parse.steam.converters.parsed;
+package com.parse.steam.converters.central;
 
-import com.parse.steam.dtos.parsed.ItemDto;
-import com.parse.steam.entities.parsed.ItemEntity;
+import com.parse.steam.dtos.central.ItemDto;
+import com.parse.steam.entities.central.ItemEntity;
 import org.springframework.beans.BeanUtils;
 
 public class ItemConverter {

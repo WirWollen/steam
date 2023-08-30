@@ -1,4 +1,4 @@
-package com.parse.steam.entities.parsed;
+package com.parse.steam.entities.central;
 
 import com.parse.steam.entities.BaseEntity;
 import jakarta.persistence.Column;
@@ -9,13 +9,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "weapon_type")
+@Table(name = "naming")
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeaponTypeEntity extends BaseEntity {
-    @Column(name = "type")
-    private String type;
+public class NamingEntity extends BaseEntity {
+    @Column(name = "naming_rus")
+    private String naming_rus;
+    @Column(name = "naming_en")
+    private String naming_en;
+    @Column(name = "photo")
+    private String photo;
 }

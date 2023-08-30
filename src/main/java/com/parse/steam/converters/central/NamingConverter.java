@@ -1,7 +1,7 @@
-package com.parse.steam.converters.parsed;
+package com.parse.steam.converters.central;
 
-import com.parse.steam.dtos.parsed.NamingDto;
-import com.parse.steam.entities.parsed.NamingEntity;
+import com.parse.steam.dtos.central.NamingDto;
+import com.parse.steam.entities.central.NamingEntity;
 import org.springframework.beans.BeanUtils;
 
 public class NamingConverter {
